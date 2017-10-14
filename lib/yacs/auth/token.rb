@@ -1,3 +1,5 @@
+require 'jwt'
+
 module Yacs::Auth::Token
   class << self
     def encode user_id:, roles: = %s(user)
