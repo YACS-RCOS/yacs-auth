@@ -1,6 +1,7 @@
 require "yacs/auth/version"
 require "yacs/auth/config"
-require "yacs/auth/login"
+require "yacs/auth/token"
+require "yacs/auth/session"
 
 module Yacs
   module Auth
