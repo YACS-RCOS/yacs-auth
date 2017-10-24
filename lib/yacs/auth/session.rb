@@ -13,3 +13,5 @@ module Yacs::Auth::Session
     end
   end
 end
+
+# TODO: Do not store token in redis
