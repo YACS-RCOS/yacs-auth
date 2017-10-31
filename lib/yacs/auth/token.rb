@@ -7,7 +7,7 @@ class Yacs::Auth::Token
     end
 
     def decode token
-      JWT.decode token, Yacs::Auth::config.secret, true, { :algorithm => 'HS256' }
+      JWT.decode(token, Yacs::Auth::config.secret, true, { :algorithm => 'HS256' }).first
     end
   end
 end
