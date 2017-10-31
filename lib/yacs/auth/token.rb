@@ -1,13 +1,13 @@
 require 'jwt'
 
-module Yacs::Auth::Token
+class Yacs::Auth::Token
   class << self
     def encode user_id:
-      JWT.encode { sub: user_id }, config.secret, 'HS256'
+      JWT.encode({ sub: user_id }, Yacs::Auth.config.secret, 'HS256')
     end
 
-    def self.decode token
-      JWT.decode token, config.secret, true, { :algorithm => 'HS256' }
+    def decode token
+      JWT.decode token, Yacs::Auth::config.secret, true, { :algorithm => 'HS256' }
     end
   end
 end
