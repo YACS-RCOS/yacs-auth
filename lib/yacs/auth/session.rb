@@ -2,7 +2,7 @@ class Yacs::Auth::Session
   class << self
     def get_session_from_token token
       decoded_token = Yacs::Auth::Token.decode token
-      session = Yacs::Auth.config.redis.hmget "session/#{decoded_token['sub']}"
+      session = Yacs::Auth.config.redis.hgetall "session/#{decoded_token['sub']}"
       { token: decoded_token, session: session }
     end
 
