@@ -1,18 +1,20 @@
 class Yacs::Auth::Session
   class << self
-    def for_token token
+    def get_session_from_token token
       decoded_token = Yacs::Auth::Token.decode token
-      Yacs::Auth.config.redis.hmget token || {}
+      session = Yacs::Auth.config.redis.hmget "session/#{decoded_token['sub']}"
+      { token: decoded_token, session: session }
     end
 
-    def valid? token
-      !!for_token(token)['valid']
-    end
-
-    def save token, params={}
-      decoded_token = Yacs::Auth::Token.decode token
+    def create user, params={}
+      token = Yacs::Auth::Token.encode user_id: user.id
       session = { token: token, valid: true }.merge params
-      Yacs::Auth.config.redis.hmset "session/#{decoded_token['sub']}", *(session.to_a.flatten)
+      Yacs::Auth.config.redis.hmset "session/#{user.id}", *(session.to_a.flatten)
+      token
+    end
+
+    def destroy user
+      Yacs::Auth.config.redis.hmset "session/#{user.id}", 'valid', false
     end
   end
 end

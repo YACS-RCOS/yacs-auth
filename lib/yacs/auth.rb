@@ -10,9 +10,11 @@ module Yacs
     end
 
     def self.sign_in user
-      token = Token.encode user_id: user.id
-      Session.save token, { valid: true }
-      token
+      Session.create user
+    end
+
+    def self.sign_out user
+      Session.destroy user
     end
 
     def self.config
